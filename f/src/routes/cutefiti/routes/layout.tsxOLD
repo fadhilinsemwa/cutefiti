@@ -1,0 +1,36 @@
+// src/routes/Layout.tsx
+import { useLocation } from '@modern-js/runtime/router';
+import ApiTracking from '../pages/ApiTracking';
+import PaymentPostResponseTable from '../components/PaymentPostResponseTable'; // Component to be rendered when hash changes
+import Pay1 from '../components/pay1'; // Import Pay1 component
+
+const Layout = () => {
+  const location = useLocation();
+
+  return (
+    <div className="main-layout">
+      {/* Common layout components can be added here */}
+      <header className="header"></header>
+
+      <main>
+        {/* Render ApiTracking by default */}
+        {!location.hash && <ApiTracking />}
+
+        {/* Conditionally render components based on the URL hash */}
+        {location.hash === '#payment-post-response' && (
+          <div className="payment-post-response-container">
+            <PaymentPostResponseTable />
+          </div>
+        )}
+
+        {location.hash === '#pay1' && (
+          <div className="pay1-container">
+            <Pay1 />
+          </div>
+        )}
+      </main>
+    </div>
+  );
+};
+
+export default Layout;
