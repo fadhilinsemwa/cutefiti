@@ -20,6 +20,7 @@ func NewTableHandler(db *sql.DB, dbType string) *TableHandler {
 func (handler *TableHandler) CreateAllTables() error {
 	tableCreationFuncs := []func() error{
 		handler.CreateManufacturersTable,
+		handler.CreateCustomersTable, // Ensure Customers table is created before Sales
 		handler.CreateProductsTable,
 		handler.CreateUnitsTable,
 		handler.CreatePurchasesTable,
@@ -54,6 +55,29 @@ func (handler *TableHandler) CreateManufacturersTable() error {
 	}
 
 	log.Println("Manufacturers table created successfully.")
+	return nil
+}
+
+// CreateCustomersTable creates the Customers table.
+func (handler *TableHandler) CreateCustomersTable() error {
+	createTableSQL := `
+	CREATE TABLE IF NOT EXISTS Customers (
+		CustomerID INT AUTO_INCREMENT PRIMARY KEY,
+		Name VARCHAR(255) NOT NULL,
+		PhoneNumber VARCHAR(20) NOT NULL,
+		ContactInfo TEXT,
+		CustomerType ENUM('Wholeseller', 'Retailer') NOT NULL,
+		Address TEXT,
+		CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+	);
+	`
+
+	_, err := handler.DB.Exec(createTableSQL)
+	if err != nil {
+		return err
+	}
+
+	log.Println("Customers table created successfully.")
 	return nil
 }
 

@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"os"
 
-	"usersb/handlers"
-	"usersb/middleware"
+	"cutefitib/handlers"
+	"cutefitib/middleware"
 
 	"github.com/joho/godotenv"
 )
