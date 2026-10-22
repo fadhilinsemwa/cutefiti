@@ -28,11 +28,17 @@ func main() {
 	// Initialize the ManufacturerHandler
 	manufacturerHandler := handlers.NewManufacturerHandler(dbHandler.DB)
 
+	// Initialize the CustomerHandler
+	customerHandler := handlers.NewCustomerHandler(dbHandler.DB)
+
 	// Create a new ServeMux
 	mux := http.NewServeMux()
 
 	// Register manufacturer-related endpoints
 	manufacturerHandler.RegisterManufacturerRoutes(mux)
+
+	// Register customer-related endpoints
+	customerHandler.RegisterCustomerRoutes(mux)
 
 	// Wrap the router with CORS middleware
 	corsRouter := middleware.CORSMiddleware(mux)
